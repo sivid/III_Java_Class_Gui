@@ -1,0 +1,60 @@
+press button
+	[0-9]
+		tempStr1 is empty
+			tempStr1.append(s);
+		tempStr1 is not empty
+			tempOperator is empty
+				tempStr1.append(s);
+			tempOperator is not empty
+				tempStr2.append(s);
+	'.'
+		tempStr1 is empty
+			'.' exists in tempStr1
+				(ignore);
+			'.' does not exist in tempStr1
+				tempStr1.append("0.");
+		tempStr1 is not empty
+			tempOperator is empty
+				'.' exists in tempStr1
+					(ignore)
+				'.' does not exist in tempStr1
+					tempStr1.append(".");
+			tempOperator is not empty		// we are in tempStr2
+				tempStr2 is empty
+					tempStr1.append("0.");
+				tempStr2 is not empty
+					'.' exists in tempStr2
+						(ignore)
+					'.' does not exist in tempStr2
+						tempStr1.append(".");
+	'+'	'-'	'*'	'/'
+		tempOperator = 'that button';
+	'='
+		if tempStr1, tempOperator, tempStr2 all have values
+			perform arithmetic operation;
+		else
+			do nothing;
+	(arrow pointing left)
+		tempOperator is not empty
+			tempStr2.length() -1; // see below for code
+		tempOperator is empty
+			tempStr1.length() -1; // see below for code
+	CE
+		tempOperator is not empty
+			empty tempStr2;
+		tempOperator is empty
+			empty tempStr1;
+	C
+		empty tempStr1;
+		empty tempStr2;
+		empty tempOperator;
+	+/-
+		tempOperator is not empty
+			tempStr2 *= -1;
+		tempOperator is empty
+			tempStr1 *= -1;		
+	
+	
+if (sb.length() > 0) {
+	sb.setLength(sb.length() - 1);
+}
