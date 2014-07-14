@@ -7,7 +7,7 @@ press button
 				tempStr1.append(s);
 			tempOperator is not empty
 				tempStr2.append(s);
-	'.'
+	'.'													// we can reduce this using a truth table
 		tempStr1 is empty
 			'.' exists in tempStr1
 				(ignore);
@@ -32,8 +32,12 @@ press button
 	'='
 		if tempStr1, tempOperator, tempStr2 all have values
 			perform arithmetic operation;
+			put result value in textfield;
+			put result value in tempStr1;
+			clear tempStr2, tempOperator;
 		else
 			do nothing;
+	============================================================================   buttons in here could have their actionlistener defined away from other buttons, if i choose to
 	(arrow pointing left)
 		tempOperator is not empty
 			tempStr2.length() -1; // see below for code
@@ -52,9 +56,15 @@ press button
 		tempOperator is not empty
 			tempStr2 *= -1;
 		tempOperator is empty
-			tempStr1 *= -1;		
+			tempStr1 *= -1;
+	============================================================================
+	
+methods
+	display String in label
+	
+	backspace method
+		if (sb.length() > 0) {
+			sb.setLength(sb.length() - 1);
+		}
 	
 	
-if (sb.length() > 0) {
-	sb.setLength(sb.length() - 1);
-}
