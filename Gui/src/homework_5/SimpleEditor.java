@@ -3,10 +3,9 @@ package homework_5;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-
 import javax.swing.*;
 
-public class SimpleEditor {
+public class SimpleEditor{
 	javax.swing.JTextArea textArea;
 	javax.swing.JScrollPane scrollPane;
 	JMenuBar menuBar;
@@ -16,13 +15,13 @@ public class SimpleEditor {
 	JMenuItem menuItemSave;
 	JMenuItem menuItemSaveAs;
 	JMenuItem menuItemExit;
-	JFileChooser fc;
-	JFrame frame;
+	JFileChooser fc = new JFileChooser();
+	JFrame frame = new JFrame();
 	File file;
+	String fileName;
 	
 	private void createAndShowGUI() {
 		// Create and set up the window.
-		frame = new JFrame("Editor");
 		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
@@ -33,9 +32,10 @@ public class SimpleEditor {
 		// Create and set up the content pane.
 		SimpleEditor sEditor = new SimpleEditor();
 		frame.setJMenuBar(sEditor.createMenuBar());
+		//frame.setTitle("SimpleEditor - " + fileName);
 		frame.setContentPane(sEditor.createContentPane());
 		// frame.addWindowListener(new AppCloser());
-		frame.setTitle("yooo");
+		//frame.setTitle("yooo");
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				System.exit(0);
@@ -72,10 +72,12 @@ public class SimpleEditor {
 		menuItemOpen.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				fc = new JFileChooser();
-				fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+				
+				//fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 				int returnVal = fc.showOpenDialog(frame);
 				if (returnVal == JFileChooser.APPROVE_OPTION){
+					System.out.println(fc.getSelectedFile().toString());
+					frame.setTitle("SimpleEditor ddd- " + fc.getSelectedFile().toString());
 					file = fc.getSelectedFile();
 					textArea.setText("");
 					try{
@@ -91,18 +93,19 @@ public class SimpleEditor {
 						textArea.read(in, null);
 						
 						// TODO: WHY @_@
-						//frame.setTitle("SimpleEditor - ");
-						System.out.println("SimpleEditor - " + file.getAbsolutePath());
+						
+						//System.out.println("SimpleEditor - " + file.getAbsolutePath());
 					}catch (Exception ex){
-						System.out.println(ex.getMessage());
+						ex.printStackTrace();
 					}
 				} else {
-					textArea.append("Open command cancelled by user.\n");
+					//textArea.append("Open command cancelled by user.\n");
 				}
 				
 				textArea.setCaretPosition(textArea.getDocument().getLength());
 			}
 		}); // end addActionListener for Open 
+		
 		menu.add(menuItemOpen);
 
 		menuItemSave = new JMenuItem("Save", KeyEvent.VK_S);
@@ -111,14 +114,26 @@ public class SimpleEditor {
 		menuItemSave.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try{
-					BufferedWriter out = new BufferedWriter(new FileWriter(file));
-					textArea.write(out);
-				}catch(IOException ex){
-					System.out.println(ex.getMessage());
-				}/*finally{
-					frame.setTitle("SimpleEditor - " + file.getAbsolutePath());
-				}*/
+				if (file == null){
+					fc = new JFileChooser();
+					int returnVal = fc.showSaveDialog(frame);
+					//System.out.println("returnVal = " + returnVal);
+					if (returnVal == JFileChooser.APPROVE_OPTION){
+						file = fc.getSelectedFile();
+					}
+				}
+				if (file != null){
+					try{
+						//BufferedWriter out = new BufferedWriter(new FileWriter(file));
+						//textArea.write(out);
+						textArea.write(new FileWriter(file));
+						}
+					catch(IOException ex){
+						System.out.println(ex.getMessage());
+					}/*finally{
+						frame.setTitle("SimpleEditor - " + file.getAbsolutePath());
+					}*/
+				}
 			}
 		}); // end addActionListener for Save
 		menu.add(menuItemSave);
@@ -130,11 +145,12 @@ public class SimpleEditor {
 			public void actionPerformed(ActionEvent e){
 				fc = new JFileChooser();
 				int returnVal = fc.showSaveDialog(frame);
-				File file = fc.getSelectedFile();
+				file = fc.getSelectedFile();
 				if (returnVal == JFileChooser.APPROVE_OPTION){
 					try{
-						BufferedWriter out = new BufferedWriter(new FileWriter(file));
-						textArea.write(out);
+						//BufferedWriter out = new BufferedWriter(new FileWriter(file));
+						//textArea.write(out);
+						textArea.write(new FileWriter(file));
 					}catch (IOException ex){
 						System.out.println(ex.getMessage());
 					}
